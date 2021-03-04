@@ -1,22 +1,12 @@
 import {fetchUtils} from 'react-admin';
 import postgrestRestProvider from "@raphiniert/ra-data-postgrest";
+import myApiService from "./apiService";
 
 require('dotenv').config();
 
 export const API_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
 
-
-/**
- *
- * dataProvider configurations
- *  Authorization Token for the API
- *
- * @param url
- * @param options
- * @returns {Promise<{status: number; headers: Headers; body: string; json: any}>}
- *
- */
-const httpClient = (url, options = {}) => {
+export const httpClient = (url, options = {}) => {
     if (!options.headers) {
         options.headers = new Headers({Accept: 'application/json'});
     }
@@ -30,6 +20,19 @@ const httpClient = (url, options = {}) => {
  *
  */
 const dataProvider = postgrestRestProvider(API_URL, httpClient);
+const myDataProvider = {
+    ...dataProvider,
 
+   getList: function (resource, params) {
 
-export default dataProvider
+        console.log("PARAMS IN GET LIST : " + JSON.stringify(params));
+        return myApiService.getVotesList(resource, params);
+    },
+
+    /*getOne: function (resource, params) {
+        return myApiService.getVote(resource, params)
+    },
+*/
+
+};
+export default myDataProvider

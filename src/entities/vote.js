@@ -1,3 +1,5 @@
+import React, {Component} from 'react';
+
 import {
     Create,
     Datagrid,
@@ -8,12 +10,37 @@ import {
     Pagination,
     SimpleForm,
     TextField,
-    TextInput
+    TextInput,
+    Filter
 } from 'react-admin';
 import {Card, CardBody, CardHeader, GridContainer, GridItem} from "../comp/Comp";
 import {makeStyles} from "@material-ui/core/styles";
 
 const VotePagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
+
+/**
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const VoteFilter = (props) => (
+    <Filter {...props}>
+        <TextInput id='p_search' label={props.continent} source="continent" alwaysOn/>
+        <TextInput id='p_search' label={props.sub_continent} source="sub_continent" alwaysOn/>
+        <TextInput id='p_search' label={props.country} source="country" alwaysOn/>
+        <TextInput id='p_search' label={props.state} source="state" />
+        <TextInput id='p_search' label={props.local} source="local" />
+        <TextInput id='p_search' label={props.political_leaders} source="political_leaders" alwaysOn/>
+        <TextInput id='p_search' label={props.picture_link} source="picture_link" />
+        <TextInput id='p_search' label={props.political_position} source="political_position" alwaysOn/>
+        <TextInput id='p_search' label={props.licence_text} source="licence_text" alwaysOn/>
+{/*
+        <BooleanInput label={"account"} source="accounts" alwaysOn/>
+*/}
+    </Filter>
+);
+
 export const styles = {
     first_name: {display: 'inline-block'},
     last_name: {display: 'inline-block', marginLeft: -30},
@@ -42,12 +69,13 @@ export const styles = {
 const useStyles = makeStyles(styles);
 
 
-export const VoteList = (props, basePath, data,) => {
+export const VoteList = (props, basePath, data) => {
     return (
         <List
             {...props}
             sort={{field: 'id', order: 'DESC'}}
             pagination={<VotePagination/>}
+            filters={<VoteFilter/>}
         >
             <div>
                 <Datagrid>
