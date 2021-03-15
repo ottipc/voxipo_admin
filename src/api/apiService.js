@@ -15,7 +15,7 @@ function buildAndQuery(prop, params) {
 
 
 const myApiService = {
-    async getVotesList(resource, params) {
+    async getList(resource, params) {
         const {page, perPage} = params.pagination;
         const {field, order} = params.sort;
         let limit = perPage;
@@ -24,7 +24,7 @@ const myApiService = {
         let options = {};
         options.headers = new Headers({'Prefer': 'count=exact'});
         let querystring = buildAndQuery(prop, params);
-      let url = API_URL + "/" + resource + "?limit=" + limit + "&offset=" + offset + "&order="+ field+"." + order.toLowerCase() + querystring;
+        let url = API_URL + "/" + resource + "?limit=" + limit + "&offset=" + offset + "&order="+ field+"." + order.toLowerCase() + querystring;
         console.log("URL : " + url);
         return httpClient(url, options).then((response) => {
             let contentrange = [0, 100];
@@ -38,6 +38,7 @@ const myApiService = {
             return ({data: jsondata, total: totalcount});
         })
     },
+
 };
 
 

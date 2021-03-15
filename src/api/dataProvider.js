@@ -23,10 +23,13 @@ const dataProvider = postgrestRestProvider(API_URL, httpClient);
 const myDataProvider = {
     ...dataProvider,
 
-   getList: function (resource, params) {
-
+    getList: function (resource, params) {
         console.log("PARAMS IN GET LIST : " + JSON.stringify(params));
-        return myApiService.getVotesList(resource, params);
+        if (resource == "vote")
+            return myApiService.getList(resource, params);
+        if (resource == "user_vote")
+            return myApiService.getList(resource, params);
+        return myApiService.getList(resource, params);
     },
 
     /*getOne: function (resource, params) {
