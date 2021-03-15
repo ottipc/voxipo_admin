@@ -82,6 +82,7 @@ export const VoteList = (props, basePath, data) => {
             filters={<VoteFilter/>}
         >
             <div>
+                <div><a href={"https://voxipo.com/voxipo-admin/download/app-debug.apk"}><span style={{color: "red"}}>Download Beta App</span></a></div>
                 <Datagrid>
                     <TextField source="id"/>
                     <TextField source="continent"/>
