@@ -8,9 +8,11 @@ import {
     ImageField,
     List,
     Pagination,
+    BooleanField,
     SimpleForm,
     TextField,
     TextInput,
+    BooleanInput,
     Filter
 } from 'react-admin';
 import {Card, CardBody, CardHeader, GridContainer, GridItem} from "../comp/Comp";
@@ -35,7 +37,9 @@ const VoteFilter = (props) => (
         <TextInput id='p_search' label={props.picture_link} source="picture_link" />
         <TextInput id='p_search' label={props.political_position} source="political_position" alwaysOn/>
         <TextInput id='p_search' label={props.licence_text} source="licence_text" alwaysOn/>
-{/*
+        <BooleanInput id='p_search' label={props.isactive} source="isactive" alwaysOn/>
+
+        {/*
         <BooleanInput label={"account"} source="accounts" alwaysOn/>
 */}
     </Filter>
@@ -90,6 +94,7 @@ export const VoteList = (props, basePath, data) => {
                     <TextField source="thumbnail"/>
                     <TextField source="picture_link"/>
                     <TextField source="licence_text"/>
+                    <BooleanField source="isactive"/>
                     <ImageField source="thumbnail" title="Pic"/>
 
                     <EditButton/>
@@ -148,6 +153,9 @@ return(
                             <GridContainer>
                                 <TextInput fullWidth={true} source="thumbnail"/>
                             </GridContainer>
+                            <GridContainer>
+                                <BooleanInput label="activated" fullWidth={true} source="isactive"/>
+                            </GridContainer>
 
                             {/*<GridContainer>
                                 <GridItem xs={12} sm={12} md={5}>
@@ -195,6 +203,7 @@ export const VoteCreate = (props) => (
             <TextInput source="thumbnail"/>
             <TextInput source="picture_link"/>
             <TextInput source="licence_text"/>
+            <BooleanInput label="activated" source="isactive"/>
             <ImageField source="thumbnail" title="Pic"/>
 
         </SimpleForm>

@@ -3,8 +3,12 @@ import {API_URL, httpClient} from '../api/dataProvider';
 function buildAndQuery(prop, params) {
     let querystring = "";
     for (prop in params.filter) {
+        if(prop == 'isactive'){
+            querystring += "&" + prop + "=eq." + params.filter[prop];
+        }else{
             //console.log("Prop is surname or givenname or username");
-            querystring = "&" + prop + "=ilike.*" + params.filter[prop] + "*";
+            querystring += "&" + prop + "=ilike.*" + params.filter[prop] + "*";
+        }
     }
     return querystring;
 }
@@ -20,7 +24,7 @@ const myApiService = {
         let options = {};
         options.headers = new Headers({'Prefer': 'count=exact'});
         let querystring = buildAndQuery(prop, params);
-      let url = API_URL + "/" + resource + "?limit=" + limit + "&offset=" + offset + "&order=id." + order.toLowerCase() + querystring;
+      let url = API_URL + "/" + resource + "?limit=" + limit + "&offset=" + offset + "&order="+ field+"." + order.toLowerCase() + querystring;
         console.log("URL : " + url);
         return httpClient(url, options).then((response) => {
             let contentrange = [0, 100];
