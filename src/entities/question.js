@@ -15,7 +15,7 @@ import {
     TextInput,
     BooleanInput,
     ReferenceField,
-    Filter, ReferenceInput, SelectInput, DateField
+    Filter, ReferenceInput, SelectInput, DateField, AutocompleteInput
 } from 'react-admin';
 import {Card, CardBody, CardHeader, GridContainer, GridItem} from "../comp/Comp";
 import {makeStyles} from "@material-ui/core/styles";
@@ -31,13 +31,29 @@ const QuestionPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50,
  */
 const QuestionFilter = (props) => (
     <Filter {...props}>
-        <TextInput id='p_search' label={props.continent} source="id" alwaysOn/>
         <TextInput id='p_search' label={props.sub_continent} source="questioname" alwaysOn/>
         <TextInput id='p_search' label={props.country} source="questiontext" alwaysOn/>
         <TextInput id='p_search' label={props.state} source="picturelink" />
+        <SelectInput label={props.country} alwaysOn source="language" choices={[
+            { id: 'en-US', name: 'US English' },
+            { id: 'de-DE', name: 'German' },
+            { id: 'ko-KR', name: 'Korean' },
+        ]} />
         <DateInput id='p_search' label={props.local} source="created" />
         <BooleanInput id='p_search' label={props.activated} source="activated" alwaysOn/>
-
+        {<ReferenceInput required={true}
+                        source="category_id"
+                        reference="category"
+                        allowEmpty
+                        alwaysOn
+        >
+            <SelectInput optionText="name" />
+        </ReferenceInput>}
+        <SelectInput alwaysOn required={true} source="question_type" choices={[
+            { id: 'multichoice', name: 'Mutiply Choice' },
+            { id: 'voting', name: 'Vote YES / NO' },
+            { id: 'doubleChoice', name: 'Choice from double Answers' },
+        ]} />
         {/*
         <BooleanInput label={"account"} source="accounts" alwaysOn/>
 */}
@@ -93,13 +109,15 @@ export const QuestionList = (props, basePath, data) => {
                 <Datagrid>
                     <TextField id='p_search' label="ID" source="id" alwaysOn/>
                     <TextField id='p_search' label="Questionname" source="questionname" alwaysOn/>
-                    <TextField id='p_search' label="Questionext"source="questiontext" alwaysOn/>
-                    <DateField id='p_search' label="created" source="created" />
-                    <BooleanField source="activated"/>
+                    <TextField id='p_search' label="Questiontext"source="questiontext" alwaysOn/>
+                    <TextField id='p_search' label="Language"source="language"/>
                     <ReferenceField label="Category" source="category_id" reference="category">
                         <TextField source="name" />
                     </ReferenceField>
                     <ImageField source="picture_link" title="Pic"/>
+                    <TextField source="question_type" title="Pic"/>
+                    <DateField id='p_search' label="created" source="created" />
+                    <BooleanField source="activated"/>
 
                     <EditButton/>
                 </Datagrid>
@@ -123,57 +141,54 @@ return(
                         <CardBody>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput source="questionname"/>
+                                    <TextInput required={true} source="questionname"/>
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput source="language"/>
+                                    <SelectInput required={true} source="language" choices={[
+                                        { id: 'en-US', name: 'US English' },
+                                        { id: 'de-DE', name: 'German' },
+                                        { id: 'ko-KR', name: 'Korean' },
+                                    ]} />
                                 </GridItem>
                             </GridContainer>
                             <GridContainer>
-                                <GridItem>
-                                    <BooleanInput label="activated" fullWidth={true} source="activated"/>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <SelectInput required={true} source="question_type" choices={[
+                                        { id: 'multichoice', name: 'Mutiply Choice' },
+                                        { id: 'voting', name: 'Vote YES / NO' },
+                                        { id: 'doubleChoice', name: 'Choice from double Answers' },
+                                    ]} />
                                 </GridItem>
-                            </GridContainer>
-                            <GridContainer>
                                 <GridItem xs={50} sm={12} md={6} >
-                                    <ReferenceInput
-                                        source="category_id"
-                                        reference="category"
-                                        allowEmpty
+                                    <ReferenceInput required={true}
+                                                    source="category_id"
+                                                    reference="category"
+                                                    allowEmpty
                                     >
                                         <SelectInput optionText="name" />
                                     </ReferenceInput>
-                                 </GridItem>
+                                </GridItem>
+                            </GridContainer>
+
+                                <GridContainer>
+                                    <TextInput className={classes.questionArea} source="picture_link"/>
+                                </GridContainer>
+                                <GridContainer>
+                                <RichTextInput className={classes.questionArea} source="questiontext"/>
+
+                            </GridContainer>
+
+                            <GridContainer>
                                 <GridItem >
-                                    <TextInput fullWidth={true} source="picture_link"/>
+                                    <BooleanInput label="activated" fullWidth={true} source="activated"/>
                                 </GridItem>
 
                             </GridContainer>
-                            <GridContainer>
-                               </GridContainer>
-
-                            {/*<GridContainer>
-                                <GridItem xs={12} sm={12} md={5}>
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={5}>
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                            </GridContainer>*/}
 
                         </CardBody>
                     </Card>
                     <Card>
                     <CardBody>
-                        <RichTextInput className={classes.questionArea} source="questiontext"/>
 
                     </CardBody>
                 </Card>
@@ -202,50 +217,39 @@ export const QuestionCreate = (props) => {
                         <CardBody>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput source="questionname"/>
+                                    <TextInput required={true} source="questionname"/>
                                 </GridItem>
-                                <GridItem xs={12} sm={12} md={5}>
-                                    <RichTextInput source="questiontext"/>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <TextInput required={true} source="language"/>
                                 </GridItem>
                             </GridContainer>
                             <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput source="language"/>
-                                </GridItem>
-
+                                <RichTextInput source="questiontext"/>
                             </GridContainer>
 
                             <GridContainer>
                                 <TextInput fullWidth={true} source="picture_link"/>
                             </GridContainer>
                             <GridContainer>
-                                <BooleanInput label="activated" fullWidth={true} source="activated"/>
-                            </GridContainer>
-                            {/*<GridContainer>
-                                <GridItem xs={12} sm={12} md={5}>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <SelectInput required={true} source="question_type" choices={[
+                                        { id: 'multichoice', name: 'Mutiply Choice' },
+                                        { id: 'voting', name: 'Vote YES / NO' },
+                                        { id: 'doubleChoice', name: 'Choice from double Answers' },
+                                    ]} />
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <ReferenceInput
+                                        source="category_id"
+                                        reference="category"
+                                        allowEmpty
+                                    >
+                                        <SelectInput optionText="name" />
+                                    </ReferenceInput>
                                 </GridItem>
                             </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={5}>
-                                </GridItem>
-                            </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                            </GridContainer>*/}
-                            <GridItem xs={12} sm={12} md={6}>
-                                <ReferenceInput
-                                    source="category_id"
-                                    reference="category"
-                                    allowEmpty
-                                >
-                                    <SelectInput optionText="name" />
-                                </ReferenceInput>
-                            </GridItem>
+                            <BooleanInput label="activated" fullWidth={true} source="activated"/>
+
                         </CardBody>
                     </Card>
                     <Card>
@@ -255,8 +259,6 @@ export const QuestionCreate = (props) => {
                 </GridItem>
             </GridContainer>
             <ImageField source="thumbnail" title="Pic"/>
-
-
         </SimpleForm>
     </Create>);
 };

@@ -15,7 +15,7 @@ import {
     TextInput,
     BooleanInput,
     ReferenceField,
-    Filter, ReferenceInput, SelectInput, DateField, NumberInput
+    Filter, ReferenceInput, SelectInput, DateField, NumberInput, AutocompleteInput
 } from 'react-admin';
 import {Card, CardBody, CardHeader, GridContainer, GridItem} from "../comp/Comp";
 import {makeStyles} from "@material-ui/core/styles";
@@ -31,13 +31,20 @@ const AnswerPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 1
  */
 const AnswerFilter = (props) => (
     <Filter {...props}>
-        <TextInput id='p_search' label="ID" source="id" alwaysOn/>
         <TextInput id='p_search' label="answertext" source="answertext" alwaysOn/>
         <TextInput id='p_search' label="order" source="answerorder"/>
-        <TextInput id='p_search' label="Question" source="question_id" alwaysOn />
         <DateInput id='p_search' label={props.local} source="created" />
-        <BooleanInput id='p_search' label={props.activated} source="activated" alwaysOn/>
+        <ReferenceInput
+            source="question_id"
+            reference="question"
+            allowEmpty
+            alwaysOn
 
+        >
+            <AutocompleteInput optionText="questionname" />
+        </ReferenceInput>
+        <TextInput id='p_search' label="Question" source="question_id" alwaysOn />
+        <BooleanInput id='p_search' label={props.activated} source="activated" alwaysOn/>
         {/*
         <BooleanInput label={"account"} source="accounts" alwaysOn/>
 */}
@@ -87,13 +94,10 @@ export const AnswerList = (props, basePath, data) => {
                    <TextField id='p_search' label="ID" source="id"/>
                     <TextField id='p_search' label="Answer" source="answertext" alwaysOn/>
                     <TextField id='p_search' label="Order" source="answerorder" alwaysOn/>
-                    <TextField id='p_search' label="Question ID" source="question_id" />
-
                     <ReferenceField label="Question Name" source="question_id" reference="question">
                         <TextField  source="questionname" />
                     </ReferenceField>
-
-                    <TextField id='p_search' label="Language" source="language" />
+                    <TextField id='p_search' label="Picture Link" source="picture_link" alwaysOn/>
                     <DateField id='p_search' label={props.local} source="created" />
                     <BooleanField id='p_search' label="Aktiviert" source="activated"/>
 \                   <EditButton/>
@@ -118,11 +122,10 @@ return(
                         <CardBody>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput id='p_search' label="Answer" source="answertext" />
-                                    <NumberInput id='p_search' label="Order" source="answerorder" />
+                                    <TextInput required={true} id='p_search' label="Answer" source="answertext" />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={5}>
-                                    <ReferenceInput
+                                    <ReferenceInput required={true}
                                         source="question_id"
                                         reference="question"
                                         allowEmpty
@@ -131,32 +134,21 @@ return(
                                     </ReferenceInput>
                                 </GridItem>
                             </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput source="language"/>
-                                </GridItem>
-                            </GridContainer>
-
 
                             <GridContainer>
                                 <BooleanInput label="activated" fullWidth={true} source="activated"/>
                             </GridContainer>
-                            {/*<GridContainer>
+                            <GridContainer>
                                 <GridItem xs={12} sm={12} md={5}>
+                                    <NumberInput initialValue={1} required={true} max={4} min={1} id='p_search' label="Order" source="answerorder" />
                                 </GridItem>
                             </GridContainer>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={5}>
+                                    <TextInput id='p_search' label="Picture Link" source="picture_link" />
                                 </GridItem>
                             </GridContainer>
-                            <GridContainer>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                </GridItem>
-                            </GridContainer>*/}
+
                         </CardBody>
                     </Card>
                     <Card>
@@ -188,11 +180,10 @@ export const AnswerCreate = (props) => {
                         <CardBody>
                             <GridContainer>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput id='p_search' label="Answer" source="answertext" />
-                                    <NumberInput id='p_search' label="Order" source="answerorder" />
+                                    <TextInput required={true} id='p_search' label="Answertext" source="answertext" />
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={5}>
-                                    <ReferenceInput
+                                    <ReferenceInput required={true}
                                         source="question_id"
                                         reference="question"
                                         allowEmpty
@@ -201,15 +192,18 @@ export const AnswerCreate = (props) => {
                                     </ReferenceInput>
                                 </GridItem>
                             </GridContainer>
+                            <GridItem xs={12} sm={12} md={5}>
+                                <NumberInput allowNull={false} initialValue={1} required={true} max={4} min={1} id='p_search' label="Order" source="answerorder" />
+                            </GridItem>
                             <GridContainer>
-                                <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput source="language"/>
+                                <GridItem xs={12} sm={12} md={5}>
+                                    <TextInput id='p_search' label="Picture Link" source="picture_link" />
                                 </GridItem>
                             </GridContainer>
-
                             <GridContainer>
                                 <BooleanInput label="activated" fullWidth={true} source="activated"/>
                             </GridContainer>
+
                             {/*<GridContainer>
                                 <GridItem xs={12} sm={12} md={5}>
                                 </GridItem>

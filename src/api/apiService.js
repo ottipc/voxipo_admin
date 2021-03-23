@@ -5,7 +5,14 @@ function buildAndQuery(prop, params) {
     for (prop in params.filter) {
         if(prop == 'isactive'){
             querystring += "&" + prop + "=eq." + params.filter[prop];
-        }else{
+        }
+        else if(prop == 'question_id'){
+            querystring += "&" + prop + "=eq." + params.filter[prop];
+        }
+        else if(prop == 'category_id'){
+            querystring += "&" + prop + "=eq." + params.filter[prop];
+        }
+        else{
             //console.log("Prop is surname or givenname or username");
             querystring += "&" + prop + "=ilike.*" + params.filter[prop] + "*";
         }

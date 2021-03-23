@@ -106,8 +106,7 @@ return(
                         </CardHeader>
                         <CardBody>
                             <TextField id='p_search' label="ID" source="id" />
-                            <TextInput id='p_search' label="Name" source="name" />
-                            <TextField id='p_search' label="Created" source="created" />
+                            <TextInput id='p_search' required={true} label="Name" source="name" />
                         </CardBody>
                     </Card>
                     <Card>
@@ -136,8 +135,7 @@ export const CategoryCreate = (props) => {
                         <h4 className={classes.cardTitleWhite}>Category</h4>
                     </CardHeader>
                     <CardBody>
-                        <TextInput id='p_search' label="Name" source="name" />
-                        <TextField id='p_search' label="Created" source="created" />
+                        <TextInput required={true} id='p_search' label="Name" source="name" />
                     </CardBody>
                 </Card>
                 <Card>
