@@ -130,7 +130,7 @@ return(
                                         reference="question"
                                         allowEmpty
                                     >
-                                        <SelectInput optionText="questionname" />
+                                        <AutocompleteInput optionText="questionname" />
                                     </ReferenceInput>
                                 </GridItem>
                             </GridContainer>
@@ -188,7 +188,7 @@ export const AnswerCreate = (props) => {
                                         reference="question"
                                         allowEmpty
                                     >
-                                        <SelectInput optionText="questionname" />
+                                        <AutocompleteInput optionText="questionname" />
                                     </ReferenceInput>
                                 </GridItem>
                             </GridContainer>
