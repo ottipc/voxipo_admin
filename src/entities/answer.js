@@ -41,9 +41,9 @@ const AnswerFilter = (props) => (
             alwaysOn
 
         >
-            <AutocompleteInput optionText="questionname" />
+            <AutocompleteInput  label="QuestionName" optionText="questionname" />
         </ReferenceInput>
-        <TextInput id='p_search' label="Question" source="question_id" alwaysOn />
+      {/*  <TextInput id='p_search' label="QuestionID" source="question_id" alwaysOn />*/}
         <BooleanInput id='p_search' label={props.activated} source="activated" alwaysOn/>
         {/*
         <BooleanInput label={"account"} source="accounts" alwaysOn/>
