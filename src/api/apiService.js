@@ -3,7 +3,7 @@ import {API_URL, httpClient} from '../api/dataProvider';
 function buildAndQuery(prop, params) {
     let querystring = "";
     for (prop in params.filter) {
-        if(prop == 'isactive'){
+        if(prop == 'isactive' || prop == 'activated'){
             querystring += "&" + prop + "=eq." + params.filter[prop];
         }
         else if(prop == 'question_id'){
