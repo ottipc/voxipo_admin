@@ -220,7 +220,11 @@ export const QuestionCreate = (props) => {
                                     <TextInput required={true} source="questionname"/>
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <TextInput required={true} source="language"/>
+                                    <SelectInput required={true} source="language" choices={[
+                                        { id: 'en-US', name: 'US English' },
+                                        { id: 'de-DE', name: 'German' },
+                                        { id: 'ko-KR', name: 'Korean' },
+                                    ]} />
                                 </GridItem>
                             </GridContainer>
                             <GridContainer>

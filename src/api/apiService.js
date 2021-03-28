@@ -12,8 +12,10 @@ function buildAndQuery(prop, params) {
         else if(prop == 'category_id'){
             querystring += "&" + prop + "=eq." + params.filter[prop];
         }
+        else if(prop == 'q'){
+            querystring += "&questionname"+"=ilike.*" + params.filter[prop] + "*";
+        }
         else{
-            //console.log("Prop is surname or givenname or username");
             querystring += "&" + prop + "=ilike.*" + params.filter[prop] + "*";
         }
     }
