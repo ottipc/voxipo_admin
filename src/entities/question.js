@@ -15,7 +15,7 @@ import {
     TextInput,
     BooleanInput,
     ReferenceField,
-    Filter, ReferenceInput, SelectInput, DateField, AutocompleteInput
+    Filter, ReferenceInput, SelectInput, DateField, AutocompleteInput, RichTextField
 } from 'react-admin';
 import {Card, CardBody, CardHeader, GridContainer, GridItem} from "../comp/Comp";
 import {makeStyles} from "@material-ui/core/styles";
@@ -109,7 +109,7 @@ export const QuestionList = (props, basePath, data) => {
                 <Datagrid>
                     <TextField id='p_search' label="ID" source="id" alwaysOn/>
                     <TextField id='p_search' label="Questionname" source="questionname" alwaysOn/>
-                    <TextField id='p_search' label="Questiontext"source="questiontext" alwaysOn/>
+                    <RichTextField id='p_search' label="Questiontext"source="questiontext" alwaysOn/>
                     <TextField id='p_search' label="Language"source="language"/>
                     <ReferenceField label="Category" source="category_id" reference="category">
                         <TextField source="name" />
