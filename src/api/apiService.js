@@ -1,9 +1,16 @@
 import {API_URL, httpClient} from '../api/dataProvider';
 
-function buildAndQuery(prop, params) {
+function buildAndQuery(resource, prop, params) {
     let querystring = "";
     for (prop in params.filter) {
-        if(prop == 'isactive' || prop == 'activated'){
+        //alert(prop)
+        if(resource == 'category' && prop == 'category_id'){
+            querystring += "&name"+"=ilike.*" + params.filter[prop] + "*";
+        }
+        else if(resource == 'category' && prop == 'q'){
+            querystring += "&name"+"=ilike.*" + params.filter[prop] + "*";
+        }
+        else if(prop == 'isactive' || prop == 'activated'){
             querystring += "&" + prop + "=eq." + params.filter[prop];
         }
         else if(prop == 'question_id'){
@@ -11,6 +18,9 @@ function buildAndQuery(prop, params) {
         }
         else if(prop == 'category_id'){
             querystring += "&" + prop + "=eq." + params.filter[prop];
+        }
+        else if(prop == 'q'){
+            querystring += "&questionname"+"=ilike.*" + params.filter[prop] + "*";
         }
         else if(prop == 'q'){
             querystring += "&questionname"+"=ilike.*" + params.filter[prop] + "*";
@@ -32,7 +42,7 @@ const myApiService = {
         let prop;
         let options = {};
         options.headers = new Headers({'Prefer': 'count=exact'});
-        let querystring = buildAndQuery(prop, params);
+        let querystring = buildAndQuery(resource, prop, params);
         let url = API_URL + "/" + resource + "?limit=" + limit + "&offset=" + offset + "&order="+ field+"." + order.toLowerCase() + querystring;
         console.log("URL : " + url);
         return httpClient(url, options).then((response) => {

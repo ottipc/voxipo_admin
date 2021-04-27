@@ -41,14 +41,14 @@ const QuestionFilter = (props) => (
         ]} />
         <DateInput id='p_search' label={props.local} source="created" />
         <BooleanInput id='p_search' label={props.activated} source="activated" alwaysOn/>
-        {<ReferenceInput required={true}
-                        source="category_id"
-                        reference="category"
-                        allowEmpty
-                        alwaysOn
+        <ReferenceInput
+            source="category_id"
+            reference="category"
+            allowEmpty
+            alwaysOn
         >
-            <SelectInput optionText="name" />
-        </ReferenceInput>}
+            <AutocompleteInput  label="Category" optionText="name" />
+        </ReferenceInput>
         <SelectInput alwaysOn required={true} source="question_type" choices={[
             { id: 'multichoice', name: 'Mutiply Choice' },
             { id: 'voting', name: 'Vote YES / NO' },
